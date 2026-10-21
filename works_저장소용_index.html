@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Works Archive · Gim Gwang Cheol</title>
+<style>
+  :root { --bg:#ffffff; --fg:#141414; --mut:#8a8a8a; --line:#e8e8e8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1240px; margin:0 auto; padding:0 28px; }
+  a { color:var(--fg); }
+  header { padding:90px 0 30px; }
+  .back { font-size:13px; letter-spacing:0.06em; text-transform:uppercase; text-decoration:none; color:var(--mut); }
+  h1 { font-size:clamp(34px,7vw,72px); line-height:1; letter-spacing:-0.03em; margin:26px 0 14px; font-weight:800; }
+  .lead { color:var(--mut); max-width:680px; margin:0; }
+  .proto { display:inline-block; margin-top:18px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+           background:#fff4b8; padding:4px 10px; }
+
+  .filters { position:sticky; top:0; background:var(--bg); z-index:5; border-top:1px solid var(--line);
+             border-bottom:1px solid var(--line); margin-top:40px; padding:14px 0 8px; }
+  .frow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:8px; }
+  .frow .k { font-size:11px; letter-spacing:0.14em; color:var(--mut); text-transform:uppercase; width:78px; flex:none; }
+  .chip { border:1px solid var(--line); background:none; color:var(--fg); font:inherit; font-size:13px;
+          padding:5px 12px; cursor:pointer; letter-spacing:0.02em; }
+  .chip:hover { border-color:var(--fg); }
+  .chip[aria-pressed="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+  .count { font-size:13px; color:var(--mut); margin-left:auto; }
+
+  .list { margin:30px 0 110px; }
+  .year { font-size:12px; letter-spacing:0.16em; color:var(--mut); margin:44px 0 10px; font-weight:600; }
+  .item { display:grid; grid-template-columns:120px 96px 1fr; gap:6px 20px; padding:14px 0;
+          border-top:1px solid var(--line); align-items:start; }
+  .no { font-variant-numeric:tabular-nums; font-size:14px; letter-spacing:0.02em; }
+  .thumb { width:96px; aspect-ratio:4/3; background:#fafafa; border:1px dashed #d8d8d8; display:flex;
+           align-items:center; justify-content:center; font-size:10px; color:#b5b5b5; letter-spacing:0.06em; }
+  .t { font-weight:700; font-size:16px; line-height:1.35; }
+  .m { color:var(--mut); font-size:14px; margin-top:2px; }
+  .tags { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
+  .tag { font-size:11px; letter-spacing:0.06em; color:var(--mut); border:1px solid var(--line); padding:1px 7px; }
+  .gap { padding:22px 0; border-top:1px solid var(--line); color:var(--mut); font-size:14px; font-style:italic; }
+  .empty { color:var(--mut); padding:40px 0; }
+  .more { display:block; width:100%; margin:50px 0 0; background:none; border:1px solid var(--fg); color:var(--fg);
+          font:inherit; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; padding:16px; cursor:pointer; }
+  .more:hover { background:var(--fg); color:var(--bg); }
+  footer { padding:42px 0 70px; color:var(--mut); font-size:13px; border-top:1px solid var(--line); }
+
+  @media (max-width:640px) {
+    .item { grid-template-columns:96px 1fr; }
+    .item .thumb { display:none; }
+    .frow .k { width:100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="back" href="https://gimgwangcheol.github.io/">← Gim Gwang Cheol</a>
+  <h1>Works, 1993–</h1>
+  <p class="lead">Newest first. Earlier works open on request. One number per work, for life: year – medium – sequence. Press a button to sort by axis, project or tendency.</p>
+  <span class="proto">Prototype v03 · 20261021 · seeded from CV</span>
+</header>
+
+<div class="filters" id="filters"></div>
+<div class="list" id="list"></div>
+
+<footer>© Gim Gwang Cheol · Gwangju, South Korea · <a href="https://gimgwangcheol.tistory.com">Writing & daily archive ↗</a></footer>
+</div>
+
+<script>
+// code: P surface, D drawing, F performance, V video, O object, H photo/AI image, T image-text, X curating
+const AXIS = { P:'Matter', D:'Matter', O:'Matter', F:'Body', X:'Body', V:'Image', H:'Image', T:'Image' };
+const MEDIUM = { P:'Surface', D:'Drawing', F:'Performance', V:'Video', O:'Object', H:'Photo / AI image', T:'Image-text', X:'Curating' };
+
+// [year, code, seq, title, place/meta, project, tendencies[]]
+const W = [
+ [1993,'F',1,'First performance (title to be confirmed)','Performance begins as dynamic meditation · records scarce','',['body']],
+ [1993,'P',1,'First independent surface work (title to be confirmed)','The year the artist\'s own surface work begins · records scarce','',[]],
+ [1995,'X',1,'How to Take It Out from the Text','Total Art Group Knock, Gwangju Biennale','Total Art Group Knock',[]],
+ [1995,'F',1,'Yatoo International Nature Art Festival','Gongju','',['nature']],
+ [1997,'P',1,'Breathe, Look, Exhale','First solo painting exhibition, Gwangju','',[]],
+ [1997,'X',1,'Why Does an Artist Become a Rag and a Beggar?','Total Art Group Knock, Gwangju','Total Art Group Knock',[]],
+ [2000,'F',1,'Seoul International Performance Art Festival','Seoul','',[]],
+ ['GAP','Surface work paused, 2000–2007. Performance continued.'],
+ [2002,'F',1,'Busan Biennale','Busan','',[]],
+ [2004,'F',1,'Gwangju Biennale','Gwangju','',[]],
+ [2007,'F',1,'NIPAF','Japan','',[]],
+ [2008,'P',1,'Memory Loading ; Battle of Desire','Namdo Food Museum, Gwangju','Memory Loading',['desire']],
+ [2009,'F',1,'Memory Loading ; Babel','First solo performance exhibition, Beijing','Memory Loading',[]],
+ [2009,'P',1,'Legend ; All or Nothing','Lotte Gallery, Gwangju','',[]],
+ [2010,'F',1,'Table Domino','Pickup Unit 1 Gallery, 798 Art Zone, Beijing','',[]],
+ [2010,'F',2,'Physical Power Plant ; The Paper','China, Korea, Canada, Poland, USA (2010–13)','Physical Power Plant',['body']],
+ [2010,'P',1,'Romantic Bullet','Mudeung Gallery, Gwangju','Romantic',[]],
+ [2011,'F',1,'Now We Are Here, with Ariana Folks','Grace Exhibition Space, New York','',[]],
+ [2013,'F',1,'Tears of Politics','Gwangju, Jeonju (2013–15)','',['institution']],
+ [2014,'P',1,'Romantic ; Loneliness, Cat, Fortress','La Fresco, Gwangju','Romantic',[]],
+ [2014,'X',1,'Look Together','Gwangju Biennale 20th Anniversary, Programme Director','',[]],
+ [2015,'F',1,'Romantic Material ; 7 Hours','Korea, USA, Brazil, Germany, Italy, Poland (2015–18)','Romantic',['body']],
+ [2016,'P',1,'East and West Crossroads','Castel dell\'Ovo, Naples, Italy','',[]],
+ [2016,'F',1,'Realization ; Transforming Substance #1-1 – #1-6','Gwangju','Realization',[]],
+ [2016,'F',2,'Logic Alchemy #123 → #10, with Park Kyeong Hwa','Korea, Poland, Italy (2016–26)','Logic Alchemy',[]],
+ [2017,'F',1,'Reading White Book, with Antoni Karwowski','Kana Theatre, Szczecin','',[]],
+ [2018,'F',1,'Romantic Material ; Light + Darkness','Dhaka and Jeonju','Romantic',[]],
+ [2018,'F',2,'The Art Seeds Thinking Space','55 days, 6 countries + Bangladesh','The Art Seeds',['sign']],
+ [2020,'P',1,'Desire Boxes, Edition 1','BHC 27th Street Gallery, Gwangju','Desire Boxes',['desire']],
+ [2021,'P',1,'Desire Boxes, Edition 2','Art Polygon, Gwangju','Desire Boxes',['desire']],
+ [2022,'P',1,'Desire Boxes, Edition 3','Songjeong Small Art Museum, Gwangju','Desire Boxes',['desire']],
+ [2022,'F',1,'The Art Seeds No 96-06','19th Asian Art Biennale, Dhaka','The Art Seeds',['sign']],
+ [2023,'P',1,'Desire Boxes, Edition 4','Yangrim Art Museum, Gwangju','Desire Boxes',['desire']],
+ [2024,'F',1,'The Art Seeds 97–05','Grace Exhibition Space, New York','The Art Seeds',['sign']],
+ [2025,'P',1,'Desire Boxes, Edition 5','Pärnu, Estonia','Desire Boxes',['desire']],
+ [2026,'D',1,'Blueprint','Pen on paper · since 11 May 2026','Blueprint + Drawing',['sign']],
+ [2026,'D',2,'Glyphs + Scratch + Orbit 01–30','Ink and acrylic on paper · since 3 July 2026','Glyphs + Scratch + Orbit',['sign']],
+ [2026,'P',1,'The Planets 14','Acrylic on canvas, 900 × 1160 mm','The Planets',[]],
+ [2026,'T',1,'What Is Within Me','Digital image with text','Geheimnis',['sign']],
+ [2026,'F',1,'역린 逆鱗 · Achilles heel','Performance for camera, Tampere','The Reverse Scale',['body','institution']],
+ [2026,'F',2,'The Art Seeds 93–03','Galleria Rajatila, Tampere','The Art Seeds',['sign']],
+ [2026,'V',1,'The Magical Things','Moving image','Magical Things',[]],
+];
+
+const pad = n => String(n).padStart(3,'0');
+const items = W.map(r => r[0]==='GAP' ? {gap:true, text:r[1], year:2007.5} : {
+  year:r[0], code:r[1], no:`${r[0]}-${r[1]}${pad(r[2])}`, title:r[3], meta:r[4], project:r[5], tend:r[6],
+  axis:AXIS[r[1]], medium:MEDIUM[r[1]] });
+
+const real = items.filter(i => !i.gap);
+const uniq = a => [...new Set(a)].filter(Boolean);
+const groups = [
+  ['axis','Axis', ['Matter','Body','Image']],
+  ['medium','Medium', uniq(real.map(i=>i.medium))],
+  ['project','Project', uniq(real.map(i=>i.project)).sort()],
+  ['tend','Tendency', uniq(real.flatMap(i=>i.tend)).sort()],
+];
+const state = { axis:null, medium:null, project:null, tend:null };
+
+const F = document.getElementById('filters');
+groups.forEach(([key,label,vals]) => {
+  const row = document.createElement('div'); row.className='frow';
+  row.innerHTML = `<span class="k">${label}</span>`;
+  ['All',...vals].forEach(v => {
+    const b = document.createElement('button'); b.className='chip'; b.textContent=v;
+    b.dataset.k=key; b.dataset.v = v==='All' ? '' : v;
+    b.setAttribute('aria-pressed', v==='All');
+    b.onclick = () => { state[key] = b.dataset.v || null;
+      row.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c===b)); render(); };
+    row.appendChild(b);
+  });
+  if (key==='axis') { const c=document.createElement('span'); c.className='count'; c.id='count'; row.appendChild(c); }
+  F.appendChild(row);
+});
+
+function match(i) {
+  if (i.gap) return !state.medium && !state.project && !state.tend && (!state.axis || state.axis==='Matter');
+  return (!state.axis || i.axis===state.axis) && (!state.medium || i.medium===state.medium) &&
+         (!state.project || i.project===state.project) && (!state.tend || i.tend.includes(state.tend));
+}
+const RECENT_FROM = 2020;   // works from this year on are shown first; earlier ones open on request
+let showEarlier = false;
+function row(L, i, last) {
+  const yy = i.gap ? '2000–2007' : i.year;
+  if (yy!==last.y) { last.y=yy; const h=document.createElement('div'); h.className='year'; h.textContent=yy; L.appendChild(h); }
+  if (i.gap) { const g=document.createElement('div'); g.className='gap'; g.textContent=i.text; L.appendChild(g); return; }
+  const d=document.createElement('div'); d.className='item'; d.id=i.no;
+  d.innerHTML = `<div class="no">${i.no}</div><div class="thumb">IMAGE</div>
+    <div><div class="t">${i.title}</div><div class="m">${i.meta}</div>
+    <div class="tags"><span class="tag">${i.axis}</span><span class="tag">${i.medium}</span>
+    ${i.project?`<span class="tag">${i.project}</span>`:''}${i.tend.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`;
+  L.appendChild(d);
+}
+function render() {
+  const L = document.getElementById('list'); L.innerHTML='';
+  // newest first: by year desc, then by order within the year desc
+  const shown = items.map((i,idx)=>({...i,idx})).filter(match)
+    .sort((a,b) => (b.year-a.year) || (b.idx-a.idx));
+  const works = shown.filter(i=>!i.gap);
+  document.getElementById('count').textContent = `${works.length} / ${real.length} works`;
+  if (!works.length) { L.innerHTML='<p class="empty">No works in this combination yet.</p>'; return; }
+  const recent = shown.filter(i => i.year >= RECENT_FROM);
+  const earlier = shown.filter(i => i.year < RECENT_FROM);
+  const last = {y:null};
+  recent.forEach(i => row(L,i,last));
+  const nEarlier = earlier.filter(i=>!i.gap).length;
+  if (!recent.length && !showEarlier && nEarlier) showEarlier = true;   // nothing recent in this filter: open earlier
+  if (nEarlier) {
+    if (showEarlier) earlier.forEach(i => row(L,i,last));
+    const b=document.createElement('button'); b.className='more';
+    const yrs = `${Math.min(...earlier.filter(i=>!i.gap).map(i=>i.year))}–${RECENT_FROM-1}`;
+    b.textContent = showEarlier ? `Close earlier works ↑` : `Earlier works, ${yrs} · ${nEarlier} ↓`;
+    b.onclick = () => { showEarlier=!showEarlier; render(); if(!showEarlier) window.scrollTo({top:0}); };
+    L.appendChild(b);
+  }
+}
+render();
+</script>
+</body>
+</html>
