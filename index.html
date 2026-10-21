@@ -37,6 +37,8 @@
   .no { font-variant-numeric:tabular-nums; font-size:14px; letter-spacing:0.02em; }
   .thumb { width:96px; aspect-ratio:4/3; background:#fafafa; border:1px dashed #d8d8d8; display:flex;
            align-items:center; justify-content:center; font-size:10px; color:#b5b5b5; letter-spacing:0.06em; }
+  a.thumb { border:none; background:none; overflow:hidden; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
   .t { font-weight:700; font-size:16px; line-height:1.35; }
   .m { color:var(--mut); font-size:14px; margin-top:2px; }
   .tags { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
@@ -61,7 +63,7 @@
   <a class="back" href="https://gimgwangcheol.github.io/">← Gim Gwang Cheol</a>
   <h1>Works, 1993–</h1>
   <p class="lead">Newest first. Earlier works open on request. One number per work, for life: year – medium – sequence. Press a button to sort by axis, project or tendency.</p>
-  <span class="proto">Prototype v03 · 20261021 · seeded from CV</span>
+  <span class="proto">Prototype v04 · 20261021 · seeded from CV</span>
 </header>
 
 <div class="filters" id="filters"></div>
@@ -164,7 +166,7 @@ function row(L, i, last) {
   if (yy!==last.y) { last.y=yy; const h=document.createElement('div'); h.className='year'; h.textContent=yy; L.appendChild(h); }
   if (i.gap) { const g=document.createElement('div'); g.className='gap'; g.textContent=i.text; L.appendChild(g); return; }
   const d=document.createElement('div'); d.className='item'; d.id=i.no;
-  d.innerHTML = `<div class="no">${i.no}</div><div class="thumb">IMAGE</div>
+  d.innerHTML = `<div class="no">${i.no}</div><a class="thumb" href="images/${i.no}.jpg" target="_blank" rel="noopener"><img src="images/${i.no}.jpg" alt="${i.no}" loading="lazy" onerror="this.parentNode.outerHTML='<div class=&quot;thumb&quot;>IMAGE</div>'"></a>
     <div><div class="t">${i.title}</div><div class="m">${i.meta}</div>
     <div class="tags"><span class="tag">${i.axis}</span><span class="tag">${i.medium}</span>
     ${i.project?`<span class="tag">${i.project}</span>`:''}${i.tend.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`;
